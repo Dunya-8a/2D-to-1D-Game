@@ -9,6 +9,11 @@ canvasElem1d.height = "200";
 let ctx2d = canvasElem2d.getContext("2d");
 let ctx1d = canvasElem1d.getContext("2d");
 
+// Define the FOV and calculate the angle between rays
+const FOV = Math.PI / 2; // 90 degrees in radians, representing a typical FOV for a first-person perspective
+const resolution = canvasElem1d.width; // The number of rays to cast corresponds to the canvas width
+const angleBetweenRays = FOV / resolution;
+
 let textures1D = [
 	[
 		{ r: 255, g: 255, b: 255 },
@@ -798,94 +803,21 @@ function castRay(px, py, dir) {
 
 function render1d() {
 	let canvasWidth = canvasElem1d.width;
-	let canvasHeight = canvasElem1d.height;
+	let canvasHeight = canvasElem1d.height; // Now used to ensure square pixels
 
-	ctx1d.beginPath();
-	ctx1d.fillStyle = "black";
-	ctx1d.rect(0, 0, canvasWidth, canvasHeight);
-	ctx1d.fill();
+	// Clear the canvas or set up background if needed
 
-	let resolution = maxRes / (10 / renderQuality);
-	let pixelWidth = canvasWidth / resolution;
+	for (let i = 0; i < resolution; ++i) {
+		let rayAngle = player.direction - FOV / 2 + i * angleBetweenRays; // Adjust ray angle
+		let color = castRay(player.x, player.y, rayAngle); // Cast ray and get color
 
-	if (anaglyph) {
-		// calculate pupil positions and directions
-		let leftPupilAng = player.direction - Math.PI / 2;
-		let leftPupilX = player.x + Math.cos(leftPupilAng) * 0.1;
-		let leftPupilY = player.y + Math.sin(leftPupilAng) * 0.1;
-		let leftPupilDir = player.direction + Math.PI / 80;
+		// Calculate the width and height of each "pixel" in the 1D strip
+		let pixelWidth = canvasWidth / resolution;
+		let pixelHeight = pixelWidth; // Square pixels
 
-		let rightPupilAng = player.direction + Math.PI / 2;
-		let rightPupilX = player.x + Math.cos(rightPupilAng) * 0.1;
-		let rightPupilY = player.y + Math.sin(rightPupilAng) * 0.1;
-		let rightPupilDir = player.direction - Math.PI / 80;
-
-		// left eye
-		for (let i = 0; i < resolution; ++i) {
-			let currentDir =
-				(Math.PI / 3) * (i / resolution - 0.5) + leftPupilDir;
-
-			let color = castRay(leftPupilX, leftPupilY, currentDir);
-
-			ctx1d.beginPath();
-			ctx1d.fillStyle = "rgb(" + color.r + ",0,0)";
-
-			let startPos = Math.round(i * pixelWidth);
-			let endPos = Math.round((i + 1) * pixelWidth);
-
-			ctx1d.rect(startPos, 0, endPos - startPos, canvasHeight);
-			ctx1d.fill();
-		}
-		// right eye
-		for (let i = 0; i < resolution; ++i) {
-			let currentDir =
-				(Math.PI / 3) * (i / resolution - 0.5) + rightPupilDir;
-
-			let color = castRay(rightPupilX, rightPupilY, currentDir);
-
-			ctx1d.beginPath();
-			ctx1d.fillStyle = "rgba(0," + color.g + "," + color.b + ",0.5)";
-
-			let startPos = Math.round(i * pixelWidth);
-			let endPos = Math.round((i + 1) * pixelWidth);
-
-			ctx1d.rect(startPos, 0, endPos - startPos, canvasHeight);
-			ctx1d.fill();
-		}
-	} else {
-		for (let i = 0; i < resolution; ++i) {
-			let currentDir =
-				(Math.PI / 2) * (i / resolution - 0.5) + player.direction;
-
-			let color = castRay(player.x, player.y, currentDir);
-
-			ctx1d.beginPath();
-			ctx1d.fillStyle =
-				"rgb(" + color.r + "," + color.g + "," + color.b + ")";
-
-			let startPos = Math.round(i * pixelWidth);
-			let endPos = Math.round((i + 1) * pixelWidth);
-
-			ctx1d.rect(startPos, 0, endPos - startPos, canvasHeight);
-			ctx1d.fill();
-		}
-	}
-
-	// draw damage overlay
-	if (player.cooldown > 0) {
-		ctx1d.beginPath();
-		ctx1d.fillStyle =
-			"rgba(" + (player.cooldown / hitCooldown) * 255 + ", 0, 0, 0.5)";
-		ctx1d.rect(0, 0, canvasWidth, canvasHeight);
-		ctx1d.fill();
-
-		// if the player is hit, display health bar
-		let healthBarWidth =
-			Math.floor((player.health / 100) * resolution) * pixelWidth;
-		ctx1d.beginPath();
-		ctx1d.fillStyle = "rgba(0, 255, 0, 0.5)";
-		ctx1d.rect(0, 0, Math.round(healthBarWidth), canvasHeight);
-		ctx1d.fill();
+		// Draw the pixel
+		ctx1d.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
+		ctx1d.fillRect(i * pixelWidth, 0, pixelWidth, pixelHeight);
 	}
 }
 
