@@ -47,11 +47,7 @@ let buttonF = document.getElementById("buttonF");
 let buttonB = document.getElementById("buttonB");
 let buttonS = document.getElementById("buttonS");
 // check for touch device
-if (
-	"ontouchstart" in window ||
-	navigator.maxTouchPoints > 0 ||
-	navigator.msMaxTouchPoints > 0
-) {
+if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) {
 	document.getElementById("controls").style.display = "none";
 	buttonL.ontouchstart = function () {
 		keys.left = true;

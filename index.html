@@ -99,20 +99,14 @@
 			<input type="checkbox" id="anaglyph" />
 			<label for="anaglyph">3D Anaglyph</label>
 			<br />
-			<input type="checkbox" id="show2d" checked/>
+			<input type="checkbox" id="show2d" checked />
 			<label for="show2d">Show 2D Display</label>
 			<br />
 			<input type="checkbox" id="bigPicture" checked />
 			<label for="bigPicture">Big Picture Mode</label>
 			<br />
 			<lable for="quality">1D Render Quality:</lable>
-			<input
-				type="range"
-				min="1"
-				max="10"
-				value="8"
-				class="slider"
-				id="quality" />
+			<input type="range" min="1" max="10" value="8" class="slider" id="quality" />
 			<br />
 			<br />
 			<span>Textures labeled "3D" are best for 3D anaglyph.</span>
@@ -132,19 +126,25 @@
 			<br />
 			<br />
 
-			<div id="controls">
-				Controls: WASD or arrow keys to move. Space, Z, or X to shoot.
-			</div>
+			<div id="controls">Controls: WASD or arrow keys to move. Space, Z, or X to shoot.</div>
 		</div>
 		<br />
 		<br />
 		<br />
 		<br />
 
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
-        <script src="serial.js"></script>
-		<script src="controller.js"></script>
-		<script src="castRay.js"></script>
-		<script src="script.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+		<script src="scripts/utils/config.js"></script>
+		<script src="scripts/utils/textures.js"></script>
+		<script src="scripts/utils/serial.js"></script>
+		<script src="scripts/utils/inputHandler.js"></script>
+		<script src="scripts/rendering/rendering2d.js"></script>
+		<script src="scripts/rendering/rendering1d.js"></script>
+		<script src="scripts/core/world.js"></script>
+		<script src="scripts/core/player.js"></script>
+		<script src="scripts/core/enemiesAndBullets.js"></script>
+		<script src="scripts/rendering/uiRenderer.js"></script>
+		<script src="scripts/utils/castRay.js"></script>
+		<script src="scripts/game.js"></script>
 	</body>
 </html>
