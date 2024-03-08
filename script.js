@@ -1,10 +1,10 @@
 let canvasElem2d = document.getElementById("canvas2d");
-canvasElem2d.width = "300";
-canvasElem2d.height = "300";
+canvasElem2d.width = "400";
+canvasElem2d.height = "400";
 
 let canvasElem1d = document.getElementById("canvas1d");
 canvasElem1d.width = "150";
-canvasElem1d.height = "200";
+canvasElem1d.height = "100";
 
 let ctx2d = canvasElem2d.getContext("2d");
 let ctx1d = canvasElem1d.getContext("2d");
@@ -164,25 +164,65 @@ let levelMaxViewDist = 200 / 32;
 let maxViewDist = tutorialMaxViewDist;
 
 let testWorld = [
-	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+	[1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+
+let emptyWorldBig = [
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
 let emptyWorld = [
@@ -215,7 +255,7 @@ let emptyWorld = [
 // 	world[randomRow][randomCol] = 3; // 3 represents an obstacle
 // }
 
-let world = [
+let ogWorld = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -236,6 +276,8 @@ let world = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
+let world = testWorld;
+
 let level = 0;
 let enemyType = 2;
 // enemy: {x, y, xVel, yVel, type, dir, state}
@@ -246,7 +288,7 @@ let enemies = [];
 let spawnEnemies = true;
 
 // bullet: {x, y, xVel, yVel, type}
-let bulletType = 3;
+let bulletType = 1;
 let bullets = [];
 
 // keep track of entities in each tile by storing their indexes as bit positions
@@ -255,7 +297,14 @@ let bulletMax = 8; // keep track of a maximum of 8 bullets
 let enemyOffset = bulletOffset + bulletMax;
 let enemyMax = 16; // keep track of a maximum of 8 enemies
 
-enemies.push({ x: 8, y: 10, xVel: 0, yVel: 0, dir: 0 });
+// first enemy in tutorial
+// enemies.push({ x: 8, y: 10, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 12, y: 20, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 5, y: 15, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 18, y: 8, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 3, y: 6, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 16, y: 12, xVel: 0, yVel: 0, dir: 0, health: 100 });
+// enemies.push({ x: 9, y: 3, xVel: 0, yVel: 0, dir: 0, health: 100 });
 
 function clearSelection() {
 	document.activeElement.blur();
@@ -290,11 +339,9 @@ updateRenderQuality.bind(document.getElementById("quality"))();
 
 let bigPicture = true;
 function updateCanvasSize() {
-	canvasElem1d.width = bigPicture
-		? window.innerWidth
-		: Math.min(window.innerWidth, 450);
-	canvasElem1d.height = canvasElem1d.width / 3;
-	canvasElem2d.width = Math.min(window.innerWidth, 300);
+	canvasElem1d.width = bigPicture ? window.innerWidth : Math.min(window.innerWidth, 450);
+	// canvasElem1d.height = canvasElem1d.width / 3;
+	canvasElem2d.width = Math.min(window.innerWidth, 500);
 }
 window.onresize = updateCanvasSize;
 function updateBigPicture() {
@@ -305,7 +352,7 @@ function updateBigPicture() {
 document.getElementById("bigPicture").onchange = updateBigPicture;
 updateBigPicture.bind(document.getElementById("bigPicture"))();
 
-let texIndex = 0;
+let texIndex = 8;
 function updateWorldTexture() {
 	texIndex = parseInt(this.value);
 	clearSelection();
@@ -416,7 +463,7 @@ function generateWorld(size) {
 			}
 
 			for (let j = directions.length; j >= 0; --j) {
-				if (Math.random() > 0.95) {
+				if (Math.random() > 0.65) {
 					// clone p for new branch
 					let pathway = Object.assign({}, p);
 					clear(pathway, directions[j]);
@@ -428,13 +475,9 @@ function generateWorld(size) {
 			if (directions.length == 0) {
 				if (p.dist > maxPathway.dist) {
 					maxPathway = p;
-				} else if (
-					spawnEnemies &&
-					p.dist > 5 &&
-					enemies.length < enemyMax
-				) {
+				} else if (spawnEnemies && p.dist > 5 && enemies.length < enemyMax) {
 					// spawn an enemy at the end of a pathway
-					if (Math.random() > 0.75) {
+					if (Math.random() > 0.85) {
 						enemies.push({
 							x: p.x + 0.5,
 							y: p.y + 0.5,
@@ -443,6 +486,7 @@ function generateWorld(size) {
 							type: enemyType,
 							dir: 0,
 							state: 0,
+							health: 100,
 						});
 					}
 				}
@@ -455,7 +499,7 @@ function generateWorld(size) {
 	world[maxPathway.y][maxPathway.x] = 2;
 }
 
-let portalColor = { r: 255, g: 255, b: 255 };
+let portalColor = { r: 0, g: 128, b: 0 };
 
 function render1d() {
 	let canvasWidth = canvasElem1d.width;
@@ -484,29 +528,20 @@ function render1d() {
 function drawStage2d() {
 	let cX = canvasElem2d.width / 2;
 	let cY = canvasElem2d.height / 2;
-	ctx2d.strokeStyle = "yellow";
+	// ctx2d.strokeStyle = "yellow";
+	const colorIndex = textures1D[texIndex][0];
+	const lineColor = `rgb(${colorIndex.r},${colorIndex.g},${colorIndex.b})`;
+	ctx2d.strokeStyle = lineColor;
 	// portal color
-	ctx2d.fillStyle =
-		"rgb(" +
-		portalColor.r +
-		"," +
-		portalColor.g +
-		"," +
-		portalColor.b +
-		")";
+	ctx2d.fillStyle = "rgb(" + portalColor.r + "," + portalColor.g + "," + portalColor.b + ")";
 
 	for (let y = 0; y < world.length; ++y) {
 		for (let x = 0; x < world[y].length; ++x) {
 			if (world[y][x] > 0) {
 				//ctx2d.strokeStyle = world[y][x] > 0 ? "yellow" : "red"
-				ctx2d.strokeStyle = "yellow";
+				ctx2d.strokeStyle = lineColor;
 				ctx2d.beginPath();
-				ctx2d.rect(
-					(x - player.x) * 32 + cX,
-					(y - player.y) * 32 + cY,
-					32,
-					32
-				);
+				ctx2d.rect((x - player.x) * 32 + cX, (y - player.y) * 32 + cY, 32, 32);
 				if (world[y][x] == 2) {
 					ctx2d.fill();
 				}
@@ -521,7 +556,7 @@ function drawPlayer() {
 	let cY = canvasElem2d.height / 2;
 	ctx2d.beginPath();
 	ctx2d.strokeStyle = "black";
-	ctx2d.fillStyle = "#ff00ff";
+	ctx2d.fillStyle = "dodgerblue"; // player color
 	ctx2d.arc(cX, cY, 16 / 2, 0, 2 * Math.PI, false);
 	ctx2d.fill();
 	ctx2d.stroke();
@@ -651,7 +686,7 @@ function checkCollision(entity, movingHoriz) {
 			if (world[y][x] > 0) {
 				if (entity == player) {
 					if (world[y][x] == 2) {
-						generateWorld(++level + 2);
+						generateWorld(++level *2 + 2);
 						entity.x = 1.5;
 						entity.y = 1.5;
 						entity.xVel = 0;
@@ -692,6 +727,7 @@ function checkCollision(entity, movingHoriz) {
 				if (dist < 0.25 + 0.25) {
 					player.cooldown = hitCooldown;
 					player.health -= 10;
+					// TO DO: add visual damage feedback
 				}
 			}
 		}
@@ -808,17 +844,20 @@ function checkBulletCollision(index) {
 					enemyBits >>= 1;
 
 					let e = enemies[i];
+					if (e != null) {
+						// Check if enemy is not already eliminated
+						let xDist = e.x - b.x;
+						let yDist = e.y - b.y;
+						let dist = Math.sqrt(xDist ** 2 + yDist ** 2);
 
-					// get the distance between the enemy and the bullet
-					let xDist = e.x - b.x;
-					let yDist = e.y - b.y;
-					let dist = Math.sqrt(xDist ** 2 + yDist ** 2);
-
-					// check if they are touching
-					if (dist < 0.125 + 0.25) {
-						clearEnemyBits(i);
-						enemies[i] = null;
-						return true;
+						if (dist < 0.125 + 0.25) {
+							e.health -= 50; // Reduce enemy health
+							if (e.health <= 0) {
+								clearEnemyBits(i); // Clear bits if enemy health is 0 or less
+								enemies[i] = null; // Remove enemy if health is 0 or less
+							}
+							return true; // Return true as the bullet hit an enemy or a wall
+						}
 					}
 				}
 			}
@@ -1002,8 +1041,9 @@ function update(timestep) {
 		writeEnemyBits(i);
 	}
 
+	// make portal glow
 	let portalAnimSpeed = 5 * tr;
-	let brightness = portalColor.r;
+	let brightness = portalColor.g;
 	if (brightenPortal) {
 		brightness += portalAnimSpeed;
 		if (brightness > 255) {
@@ -1018,9 +1058,10 @@ function update(timestep) {
 		}
 	}
 
-	portalColor.r = brightness;
+	// white
+	// portalColor.r = brightness;
 	portalColor.g = brightness;
-	portalColor.b = brightness;
+	// portalColor.b = brightness;
 }
 
 let lastTime = Date.now();
@@ -1037,10 +1078,7 @@ function runGame() {
 		update(Math.min(delta, 100));
 	} else {
 		if (gameOverOpacity < 1) {
-			gameOverOpacity = Math.min(
-				1,
-				gameOverOpacity + delta / gameOverTime
-			);
+			gameOverOpacity = Math.min(1, gameOverOpacity + delta / gameOverTime);
 		}
 
 		render();
