@@ -3,7 +3,7 @@ canvasElem2d.width = "300";
 canvasElem2d.height = "300";
 
 let canvasElem1d = document.getElementById("canvas1d");
-canvasElem1d.width = "600";
+canvasElem1d.width = "150";
 canvasElem1d.height = "200";
 
 let ctx2d = canvasElem2d.getContext("2d");
@@ -58,10 +58,14 @@ let textures1D = [
 		{ r: 255, g: 255, b: 255 },
 		{ r: 0, g: 0, b: 0 },
 	],
+	[
+		{ r: 255, g: 255, b: 255 },
+		{ r: 96, g: 96, b: 96 },
+	],
 ];
 
 let enemyEyeColor = { r: 255, g: 255, b: 255 };
-let enemyBodyColor = { r: 255, g: 0, b: 255 };
+let enemyBodyColor = { r: 255, g: 0, b: 0 };
 
 // texture for half of the enemy's face
 let enemyTexture1D = [
@@ -159,42 +163,73 @@ let tutorialMaxViewDist = 400 / 32;
 let levelMaxViewDist = 200 / 32;
 let maxViewDist = tutorialMaxViewDist;
 
+let testWorld = [
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+	[1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+
+let emptyWorld = [
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+
+// Adding obstacles
+// for (let i = 0; i < 5; i++) {
+// 	let randomRow = Math.floor(Math.random() * (world.length - 2)) + 1;
+// 	let randomCol = Math.floor(Math.random() * (world[0].length - 2)) + 1;
+// 	world[randomRow][randomCol] = 3; // 3 represents an obstacle
+// }
+
 let world = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
+	[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
-
-let newWorld = [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-	[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-	[1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -278,116 +313,12 @@ function updateWorldTexture() {
 document.getElementById("texture").onchange = updateWorldTexture;
 updateWorldTexture.bind(document.getElementById("texture"))();
 
-let keys = {
-	forward: false,
-	backward: false,
-	left: false,
-	right: false,
-	shoot: false,
-};
-
-function updateKey(keyCode, value) {
-	switch (keyCode) {
-		case 38: // up key
-		case 87: // W key; fallthrough
-			keys.forward = value;
-			break;
-		case 40: // down key
-		case 83: // S key; fallthrough
-			keys.backward = value;
-			break;
-		case 37: // left key
-		case 65: // A key; fallthrough
-			keys.left = value;
-			break;
-		case 39: // right key
-		case 68: // D key; fallthrough
-			keys.right = value;
-			break;
-		case 32: // space key
-		case 90: // Z key; fallthrough
-		case 88: // X key; fallthrough
-			keys.shoot = value;
-			break;
-	}
-}
-
-window.onkeydown = function (e) {
-	updateKey(e.keyCode, true);
-	e.preventDefault();
-};
-
-window.onkeyup = function (e) {
-	updateKey(e.keyCode, false);
-};
-
-let buttonL = document.getElementById("buttonL");
-let buttonR = document.getElementById("buttonR");
-let buttonF = document.getElementById("buttonF");
-let buttonB = document.getElementById("buttonB");
-let buttonS = document.getElementById("buttonS");
-// check for touch device
-if (
-	"ontouchstart" in window ||
-	navigator.maxTouchPoints > 0 ||
-	navigator.msMaxTouchPoints > 0
-) {
-	document.getElementById("controls").style.display = "none";
-	buttonL.ontouchstart = function () {
-		keys.left = true;
-		this.style.backgroundColor = "#555";
-	};
-	buttonL.ontouchend = function () {
-		keys.left = false;
-		this.style.backgroundColor = "";
-	};
-
-	buttonR.ontouchstart = function () {
-		keys.right = true;
-		this.style.backgroundColor = "#555";
-	};
-	buttonR.ontouchend = function () {
-		keys.right = false;
-		this.style.backgroundColor = "";
-	};
-
-	buttonF.ontouchstart = function () {
-		keys.forward = true;
-		this.style.backgroundColor = "#555";
-	};
-	buttonF.ontouchend = function () {
-		keys.forward = false;
-		this.style.backgroundColor = "";
-	};
-
-	buttonB.ontouchstart = function () {
-		keys.backward = true;
-		this.style.backgroundColor = "#555";
-	};
-	buttonB.ontouchend = function () {
-		keys.backward = false;
-		this.style.backgroundColor = "";
-	};
-
-	buttonS.ontouchstart = function () {
-		keys.shoot = true;
-		this.style.backgroundColor = "#555";
-	};
-	buttonS.ontouchend = function () {
-		keys.shoot = false;
-		this.style.backgroundColor = "";
-	};
-} else {
-	document.getElementById("buttonContainer").style.display = "none";
-}
-
 function remove(x, y) {
 	if (x >= 0 && y >= 0 && y < world.length && x < world[y].length) {
 		world[y][x] = 0;
 		return;
 	}
 }
-
 
 function clear(p, dir) {
 	switch (dir) {
@@ -444,6 +375,7 @@ function available(x, y) {
 	return false;
 }
 
+// generate a new world algorithmically
 function generateWorld(size) {
 	size = size * 3 + 1;
 	enemies = [];
@@ -524,282 +456,6 @@ function generateWorld(size) {
 }
 
 let portalColor = { r: 255, g: 255, b: 255 };
-// casts a ray and returns the color of whatever it hits
-function castRay(px, py, dir) {
-	let xComp = Math.cos(dir);
-	let yComp = Math.sin(dir);
-
-	// slope of the line
-	let m = yComp / xComp;
-
-	let rx = px;
-	let ry = py;
-
-	let facingRight = xComp >= 0;
-	let xWorldEdge = facingRight ? world[0].length : -1;
-
-	let facingDown = yComp >= 0;
-	let yWorldEdge = facingDown ? world.length : -1;
-
-	while (true) {
-		// continue to the next block
-
-		// find out which block edge will be hit first
-		let nextX = facingRight ? Math.floor(rx) + 1 : Math.ceil(rx) - 1;
-		let nextY = facingDown ? Math.floor(ry) + 1 : Math.ceil(ry) - 1;
-
-		let distX = Math.abs(nextX - rx);
-		let distY = Math.abs(nextY - ry);
-
-		// coords of the current block
-		let bx;
-		let by;
-
-		let facingVertEdge = distY / distX > Math.abs(m);
-		if (facingVertEdge) {
-			// vertical edge collision
-			rx = nextX;
-			ry = py + (rx - px) * m;
-
-			bx = facingRight ? rx : rx - 1;
-			by = Math.floor(ry);
-		} else {
-			// horizontal edge collision
-			ry = nextY;
-			rx = px + (ry - py) / m;
-
-			by = facingDown ? ry : ry - 1;
-			bx = Math.floor(rx);
-		}
-
-		// return black if we hit the world edge
-		if (bx == xWorldEdge || by == yWorldEdge) {
-			return { r: 0, g: 0, b: 0 };
-		}
-
-		// check for a collsion in the current block
-		if (world[by][bx] == 0) {
-			continue;
-		}
-
-		// let cX = canvasElem2d.width / 2
-		// let cY = canvasElem2d.height / 2
-
-		// ctx2d.beginPath()
-		// ctx2d.fillStyle = "orange"
-		// ctx2d.rect(cX + (bx - player.x) * 32, cY + (by - player.y) * 32, 32, 32)
-		// ctx2d.fill()
-
-		// ctx2d.beginPath()
-		// ctx2d.strokeStyle = "red"
-		// ctx2d.moveTo(cX, cY)
-		// ctx2d.lineTo(cX + (rx - player.x) * 32, cY + (ry - player.y) * 32)
-		// ctx2d.stroke()
-
-		if (world[by][bx] == 2) {
-			return portalColor;
-		}
-
-		let color = null;
-		// a negative tile indicates there are entities inside
-		if (world[by][bx] < 0) {
-			let tileBits = -world[by][bx];
-
-			// isolate enemy and bullet bits, adjust to 0 offset
-			// assumes bulletOffset < enemyOffset
-			let enemyBits = tileBits >> enemyOffset;
-			let bulletBits =
-				(tileBits & ~(enemyBits << enemyOffset)) >> bulletOffset;
-
-			// find where the ray intersects an enemy or bullet
-			let xInt = 0;
-			let yInt = 0;
-			// look for bullets first because they are likely to be closer
-			for (let i = 0; i < bulletMax; ++i) {
-				if (bulletBits == 0) {
-					// stop looking if there are no bullets
-					break;
-				}
-
-				if ((bulletBits & 1) == 0) {
-					bulletBits >>= 1;
-					continue;
-				}
-				// go to the next bit
-				bulletBits >>= 1;
-
-				let b = bullets[i];
-
-				let bDistX = b.x - player.x;
-				let bDistY = b.y - player.y;
-				let bDist = Math.sqrt(bDistX ** 2 + bDistY ** 2);
-
-				// find the angle between the bullet and the player
-				let xCompB = bDistX / bDist;
-				let yCompB = bDistY / bDist;
-
-				// find the distance between the bullet and the ray
-				let dist =
-					Math.abs((rx - px) * (py - b.y) - (px - b.x) * (ry - py)) /
-					Math.sqrt((rx - px) ** 2 + (ry - py) ** 2);
-
-				if (dist > 0.125) {
-					// the bullet does not collide with the ray
-					continue;
-				}
-
-				// the ray hits the bullet! return the color
-				let blue = (dist / 0.125) * 255;
-				color = { r: 255, g: 255, b: blue };
-				break;
-			}
-
-			if (color == null) {
-				// look for enemies
-				for (let i = 0; i < enemyMax; ++i) {
-					if (enemyBits == 0) {
-						// stop looking if there are no enemies
-						break;
-					}
-					if ((enemyBits & 1) == 0) {
-						// skip over this bit
-						enemyBits >>= 1;
-						continue;
-					}
-					// go to the next bit
-					enemyBits >>= 1;
-
-					let e = enemies[i];
-
-					// find the line from the enemy perpendicular to the player
-					// use player.x instead of px for 3D anaglyph
-					let eDistX = e.x - player.x;
-					let eDistY = e.y - player.y;
-
-					// let cX = canvasElem2d.width / 2
-					// let cY = canvasElem2d.height / 2
-
-					// calculate where the two lines intersect
-					if (eDistX == 0) {
-						// player x == enemy x
-						yInt = e.y;
-						xInt = px + (yInt - py) / m;
-					} else if (eDistY == 0) {
-						// player y == enemy y
-						xInt = e.x;
-						yInt = py + (xInt - px) * m;
-					} else {
-						// find distance between player and enemy
-						let eDist = Math.sqrt(eDistX ** 2 + eDistY ** 2);
-
-						// find the perpendicular angle
-						let xCompE = -eDistY / eDist; // -sin
-						let yCompE = eDistX / eDist; // cos
-
-						let a1 = -yComp;
-						let b1 = xComp;
-
-						let a2 = -yCompE;
-						let b2 = xCompE;
-
-						// ctx2d.beginPath()
-						// ctx2d.strokeStyle = "yellow"
-						// let startX = e.x + (-3 * xCompE)
-						// let startY = e.y + (-3 * yCompE)
-						// ctx2d.moveTo(cX + (startX - player.x) * 32, cY + (startY - player.y) * 32)
-						// let endX = e.x + (3 * xCompE)
-						// let endY = e.y + (3 * yCompE)
-						// ctx2d.lineTo(cX + (endX - player.x) * 32, cY + (endY - player.y) * 32)
-						// ctx2d.stroke()
-
-						// ctx2d.beginPath()
-						// ctx2d.strokeStyle = "yellow"
-						// startX = px + (-3 * xComp)
-						// startY = py + (-3 * yComp)
-						// ctx2d.moveTo(cX + (startX - player.x) * 32, cY + (startY - player.y) * 32)
-						// endX = px + (3 * xComp)
-						// endY = py + (3 * yComp)
-						// ctx2d.lineTo(cX + (endX - player.x) * 32, cY + (endY - player.y) * 32)
-						// ctx2d.stroke()
-
-						// find c values for both lines in the form ax + by = c
-						let c1 = a1 * px + b1 * py;
-						let c2 = a2 * e.x + b2 * e.y;
-
-						//console.log((a1 * c2 - a2 * c1) / (a1 * b2 - a2 * b1) + ", " + py)
-
-						// let c1 = xComp * e.x + yComp * e.y
-						// let c2 = xCompE * px + yCompE * py
-
-						// compute the intersection x and y
-						yInt = (a2 * c1 - a1 * c2) / (a2 * b1 - a1 * b2);
-						xInt = e.x + (yInt - e.y) * (xCompE / yCompE);
-
-						//console.log(xInt + ", " + yInt)
-						// let temp = yInt
-						// yInt = xInt
-						// xInt = temp
-					}
-
-					// ctx2d.beginPath()
-					// ctx2d.fillStyle = "orange"
-					// ctx2d.rect(cX + (bx - player.x) * 32, cY + (by - player.y) * 32, 32, 32)
-					// ctx2d.fill()
-
-					// ctx2d.beginPath()
-					// ctx2d.strokeStyle = "red"
-					// ctx2d.moveTo(cX, cY)
-					// ctx2d.lineTo(cX + (xInt - player.x) * 32, cY + (yInt - player.y) * 32)
-					// ctx2d.stroke()
-
-					// find distance between enemy and interception
-					let dist = Math.sqrt((xInt - e.x) ** 2 + (yInt - e.y) ** 2);
-
-					if (dist > 0.25) {
-						continue;
-					}
-
-					let colorIndex = Math.floor(
-						(dist / 0.25) * enemyTexture1D.length
-					);
-					color = enemyTexture1D[colorIndex];
-				}
-			}
-
-			if (color == null) {
-				continue;
-			}
-		} else {
-			// find where the collision was on the tile
-			let tilePos;
-			if (facingVertEdge) {
-				tilePos = ry % 1;
-				if (facingRight) {
-					tilePos = 1 - tilePos;
-				}
-			} else {
-				tilePos = rx % 1;
-				if (facingDown) {
-					tilePos = 1 - tilePos;
-				}
-			}
-			let colorIndex = Math.floor(tilePos * textures1D[texIndex].length);
-			color = textures1D[texIndex][colorIndex];
-		}
-
-		let distance = Math.sqrt((rx - px) ** 2 + (ry - py) ** 2);
-
-		let brightness = 1.0 - Math.min(distance, maxViewDist) / maxViewDist;
-		if (anaglyph) {
-			brightness = Math.min(1.0, brightness + 0.3);
-		}
-		return {
-			r: color.r * brightness,
-			g: color.g * brightness,
-			b: color.b * brightness,
-		};
-	}
-}
 
 function render1d() {
 	let canvasWidth = canvasElem1d.width;
@@ -808,6 +464,8 @@ function render1d() {
 	// Clear the canvas or set up background if needed
 
 	for (let i = 0; i < resolution; ++i) {
+		// half the FOV to the left and right of the player's direction
+		// iterate through the rays cast out from the player determined by chosen angle between rays (resolution)
 		let rayAngle = player.direction - FOV / 2 + i * angleBetweenRays; // Adjust ray angle
 		let color = castRay(player.x, player.y, rayAngle); // Cast ray and get color
 
@@ -815,8 +473,10 @@ function render1d() {
 		let pixelWidth = canvasWidth / resolution;
 		let pixelHeight = pixelWidth; // Square pixels
 
-		// Draw the pixel
+		// Draw the pixel with border
 		ctx1d.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
+		// ctx1d.lineWidth = 1;
+		// ctx1d.strokeStyle = "black";
 		ctx1d.fillRect(i * pixelWidth, 0, pixelWidth, pixelHeight);
 	}
 }
