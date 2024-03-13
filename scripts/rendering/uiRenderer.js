@@ -3,6 +3,8 @@
  * @param {number} timestep - The elapsed time since the last update in milliseconds.
  */
 
+const ACCELERATION_INTERACTION_FACTOR = 30000;
+
 function checkCollision(entity, movingHoriz) {
 	// check for collisions
 	let leftBoundX = Math.floor(entity.x - 0.25);
@@ -69,24 +71,41 @@ function update(timestep) {
 	// timestep ratio
 	let tr = timestep / stepSt;
 
-	if (keys.right) {
+	// let potentioMapped = mapPotentiometer(potentioValue, -0.005, 0.005);
+	// let imuMapped = mapIMU(imuValue, FOV);
+
+	// console.log(potentioValue);
+	// console.log(imuValue);
+	// console.log(imuChange);
+
+	let currentImu = imuValue;
+
+	if (keys.right || imuChange === "left") {
 		player.angVel += angAcc * tr;
-	} else if (keys.left) {
+	} else if (keys.left || imuChange === "right") {
 		player.angVel -= angAcc * tr;
 	}
+	// if (keys.right || imuMapped > 0) {
+	// 	player.angVel += angAcc * tr;
+	// } else if (keys.left || imuMapped < 0) {
+	// 	player.angVel -= angAcc * tr;
+	// }
 	player.angVel *= 1 - angFric * tr;
 
 	player.direction += player.angVel * tr;
+	// if (imuMapped) player.direction = imuMapped * tr;
 
 	let xComp = Math.cos(player.direction);
 	let yComp = Math.sin(player.direction);
 
-	if (keys.forward) {
-		player.xVel += xComp * acc * tr;
-		player.yVel += yComp * acc * tr;
-	} else if (keys.backward) {
-		player.xVel -= ((xComp * acc) / 2) * tr;
-		player.yVel -= ((yComp * acc) / 2) * tr;
+	const addAcc = Math.abs(potentioValue) / ACCELERATION_INTERACTION_FACTOR;
+
+	if (keys.forward || potentioValue > 0) {
+		player.xVel += xComp * (acc + addAcc) * tr;
+		player.yVel += yComp * (acc + addAcc) * tr;
+	} else if (keys.backward || potentioValue < 0) {
+		player.xVel -= ((xComp * (acc + addAcc)) / 2) * tr;
+		player.yVel -= ((yComp * (acc + addAcc)) / 2) * tr;
 	}
 
 	if (keys.shoot && bullets.length < bulletMax) {

@@ -120,6 +120,8 @@ function runGame() {
 		}
 	}
 
+	// console.log(potentioValue);
+
 	requestAnimationFrame(runGame);
 }
 runGame();

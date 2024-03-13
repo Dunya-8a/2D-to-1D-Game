@@ -96,3 +96,40 @@ if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxT
 } else {
 	document.getElementById("buttonContainer").style.display = "none";
 }
+
+// function sensorsHandler(potentioValue, imuValue) {
+// 	// Move forward and backward based on potentioValue
+// 	// angAcc = potentioValue / 100;
+
+// 	// The potentiometer has a range of 0 to 40. Map it to a range of -1 to 1
+// 	let potentioMapped = (potentioValue - 20) / 20;
+// 	console.log(potentioMapped);
+// 	if (potentioMapped > 0.1) {
+// 		keys.forward = true;
+// 		keys.backward = false;
+// 	}
+// 	else if (potentioMapped < -0.1) {
+// 		keys.forward = false;
+// 		keys.backward = true;
+// 	}
+// 	else if (potentioMapped > -0.1 && potentioMapped < 0.1) {
+// 		keys.forward = false;
+// 		keys.backward = false;
+// 	}
+
+// 	// Move left and right based on imuValue
+// 	// angVel = imuValue / 100;
+// }
+
+const mapPotentiometer = (potentioValue, rangeMin, rangeMax) => {
+	// The potentiometer has a range of 0 to 40. Map it to the given range
+	return (potentioValue * (rangeMax - rangeMin)) / 40 + rangeMin;
+};
+
+const mapIMU = (imuValue) => {
+	// The IMU has a range of -30 to 30. Map it to -1 to 1
+	return (imuValue * 2) / 60;
+
+	// Alternatively, we can map the IMU value to a full unit circle
+	// return (imuValue * Math.PI) / 180;
+};

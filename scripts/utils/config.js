@@ -1,6 +1,6 @@
 let spawnEnemies = true;
 
-let acc = 0.005;
+let acc = 0.001;
 let fric = 0.03;
 
 let angAcc = 0.003;
