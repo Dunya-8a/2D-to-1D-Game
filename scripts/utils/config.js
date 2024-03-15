@@ -1,9 +1,9 @@
 let spawnEnemies = true;
 
-let acc = 0.001;
+let acc = 0.0005;
 let fric = 0.03;
 
-let angAcc = 0.003;
+let angAcc = 0.002;
 let angFric = 0.05;
 
 // view distance in blocks
