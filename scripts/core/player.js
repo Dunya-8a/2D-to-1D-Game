@@ -4,6 +4,10 @@ const angleBetweenRays = FOV / resolution; // -> resolution is a global variable
 
 // TO DO: resolution should be passed or be a global variable
 
+const playerColorR = portalColor.r;
+const playerColorG = portalColor.g;
+const playerColorB = portalColor.b;
+
 let playerType = 1;
 let player = {
 	x: 1.5,
@@ -15,7 +19,8 @@ let player = {
 	direction: 0.0, // direction in radians
 	cooldown: 0.0, // remaining cooldown time
 	health: 100,
-	points: 2,
+	points: 0,
+	color: `rgb(playerColorR, playerColorG, playerColorB)`,
 };
 
 function drawPlayer() {
@@ -23,7 +28,7 @@ function drawPlayer() {
 	let cY = canvasElem2d.height / 2;
 	ctx2d.beginPath();
 	ctx2d.strokeStyle = "black";
-	ctx2d.fillStyle = "dodgerblue"; // player color
+	ctx2d.fillStyle = player.color; // player color
 	ctx2d.arc(cX, cY, 16 / 2, 0, 2 * Math.PI, false);
 	ctx2d.fill();
 	ctx2d.stroke();
