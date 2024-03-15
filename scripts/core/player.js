@@ -15,6 +15,7 @@ let player = {
 	direction: 0.0, // direction in radians
 	cooldown: 0.0, // remaining cooldown time
 	health: 100,
+	points: 2,
 };
 
 function drawPlayer() {
