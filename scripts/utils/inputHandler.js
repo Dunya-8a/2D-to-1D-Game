@@ -121,15 +121,30 @@ if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxT
 // 	// angVel = imuValue / 100;
 // }
 
-const mapPotentiometer = (potentioValue, rangeMin, rangeMax) => {
-	// The potentiometer has a range of 0 to 40. Map it to the given range
-	return (potentioValue * (rangeMax - rangeMin)) / 40 + rangeMin;
+const mapPotentiometer = (potentioValue, inputRangeMin, inputRangeMax, desiredRangeMin, desiredRangeMax) => {
+	const inputRange = inputRangeMax - inputRangeMin;
+	const desiredRange = desiredRangeMax - desiredRangeMin;
+	const normalizedValue = (potentioValue - inputRangeMin) / inputRange;
+	const mappedValue = desiredRange * normalizedValue + desiredRangeMin;
+	return mappedValue;
 };
 
 const mapIMU = (imuValue) => {
-	// The IMU has a range of -30 to 30. Map it to -1 to 1
-	return (imuValue * 2) / 60;
+	// The IMU has a range of -80 to 80
+	const inputRangeMin = -80;
+	const inputRangeMax = 80;
+	// Desired range is to - 100 to 100
+	const desiredRangeMin = -100;
+	const desiredRangeMax = 100;
+	
+	// Cap the min to - 30 even if the IMU value is less than - 30 and the max to 30 even if the IMU value is greater than 30
+	let mappedValue = imuValue;
+	if (mappedValue < -30) {
+		mappedValue = -30;
+	} else if (mappedValue > 30) {
+		mappedValue = 30;
+	}
 
-	// Alternatively, we can map the IMU value to a full unit circle
-	// return (imuValue * Math.PI) / 180;
+	mappedValue = mapPotentiometer(mappedValue, inputRangeMin, inputRangeMax, desiredRangeMin, desiredRangeMax);
+	return mappedValue;
 };
