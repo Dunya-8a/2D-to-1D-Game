@@ -16,8 +16,9 @@ function checkCollision(entity, movingHoriz) {
 		for (let x = leftBoundX; x < rightBoundX; ++x) {
 			if (world[y][x] > 0) {
 				if (entity == player) {
-					if (world[y][x] == 2) {
-						generateWorld(++level * 2 + 2);
+					if (world[y][x] == 2)
+					{
+						generateWorld(++level * 2 + 2, seed);
 						entity.x = 1.5;
 						entity.y = 1.5;
 						entity.xVel = 0;
@@ -69,6 +70,7 @@ function checkCollision(entity, movingHoriz) {
 // the standard timestep
 let stepSt = 30;
 function update(timestep) {
+
 	// timestep ratio
 	let tr = timestep / stepSt;
 
@@ -79,7 +81,7 @@ function update(timestep) {
 	// console.log(imuValue);
 	// console.log(imuDirection);
 
-	let currentImu = imuValue;
+	// let currentImu = imuValue;
 	// console.log(imuDifferenceAbs);
 	if (keys.right || imuDirection === "right") {
 		player.angVel += angAcc * tr;
@@ -110,6 +112,37 @@ function update(timestep) {
 		player.xVel -= ((xComp * newAcc) / 2) * tr;
 		player.yVel -= ((yComp * newAcc) / 2) * tr;
 	}
+
+	// let currentImu = imuValue;
+
+	// // if (keys.right || imuDirection === "right") {
+	// if (keys.right) {
+	// 	player.angVel += angAcc * tr;
+	// // } else if (keys.left || imuDirection === "left") {
+	// } else if (keys.left ) {
+	// 	player.angVel -= angAcc * tr;
+	// }
+
+	// player.angVel *= 1 - angFric * tr;
+
+	// player.direction += player.angVel * tr;
+
+	// let xComp = Math.cos(player.direction);
+	// let yComp = Math.sin(player.direction);
+
+	// const addAcc = Math.abs(potentioValue) / ACCELERATION_INTERACTION_FACTOR;
+	// const newAcc = acc + addAcc;
+
+	// if (keys.forward || potentioValue > 0) {
+	// 	player.xVel += xComp * newAcc * tr;
+	// 	player.yVel += yComp * newAcc * tr;
+	// } else if (keys.backward || potentioValue < 0) {
+	// 	player.xVel -= ((xComp * newAcc) / 2) * tr;
+	// 	player.yVel -= ((yComp * newAcc) / 2) * tr;
+	// }
+
+
+	////////////////////////////////////////////////////
 
 	if (keys.shoot && bullets.length < bulletMax) {
 		keys.shoot = false;

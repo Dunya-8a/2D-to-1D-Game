@@ -1,3 +1,6 @@
+// let seed = Math.random() * 100;
+let seed = 1;
+
 let testWorld = [
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	[1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -85,8 +88,8 @@ let emptyWorld = [
 
 // Adding obstacles
 // for (let i = 0; i < 5; i++) {
-// 	let randomRow = Math.floor(Math.random() * (world.length - 2)) + 1;
-// 	let randomCol = Math.floor(Math.random() * (world[0].length - 2)) + 1;
+// 	let randomRow = Math.floor(seedableRandom(seed) * (world.length - 2)) + 1;
+// 	let randomCol = Math.floor(seedableRandom(seed) * (world[0].length - 2)) + 1;
 // 	world[randomRow][randomCol] = 3; // 3 represents an obstacle
 // }
 
@@ -175,8 +178,14 @@ function available(x, y) {
 	return false;
 }
 
+function seedableRandom(seed)
+{
+	const x = Math.sin(seed++) * 10000;
+	return x - Math.floor(x);
+}
+
 // generate a new world algorithmically
-function generateWorld(size) {
+function generateWorld(size, seed) {
 	size = size * 3 + 1;
 	enemies = [];
 
@@ -214,6 +223,9 @@ function generateWorld(size) {
 			if (available(p.x + 4, p.y)) {
 				directions.push(4); // right
 			}
+
+			// console.log(seedableRandom(seed));
+			// console.log(seed)
 
 			for (let j = directions.length; j >= 0; --j) {
 				if (Math.random() > 0.65) {
