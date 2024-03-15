@@ -6,7 +6,7 @@ import { Server as SocketIOServer } from "socket.io";
 
 try {
 	const index = readFileSync("../index.html");
-	const port = new SerialPort({ path: "/dev/cu.usbmodem1101", baudRate: 14400 });
+	const port = new SerialPort({ path: "/dev/cu.usbmodem101", baudRate: 14400 });
 	const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
 	const app = createServer(function (_req, res) {
@@ -32,6 +32,7 @@ try {
 				console.log("Data not found!");
 			} else {
 				io.emit("data", data);
+				// console.log(data)
 			}
 		} catch (error) {
 			console.log("Error:", error);

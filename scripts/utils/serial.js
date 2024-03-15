@@ -1,4 +1,3 @@
-// // document.addEventListener('DOMContentLoaded', () => {
 // // Connect to the Socket.IO server
 // const socket = io("http://127.0.0.1:3000");
 
@@ -26,7 +25,7 @@
 // 		imuDifferenceAbs = Math.abs(imuValue - prevImuValue);
 
 // 		// if IMU value is between -0.1 and 0.1, then the IMU is static
-// 		if (imuDifferenceAbs < 0.02) {
+// 		if (imuDifferenceAbs < 0.05) {
 // 			imuDirection = "static";
 // 		} else {
 // 			imuDirection = imuValue > 0 ? "left" : "right";
@@ -41,46 +40,47 @@
 // 		prevImuValue = imuValue; // Initialize prevImuValue on the first run
 // 	}
 
-// 	// // imuValue = mapIMU(imuValue);
-// 	// let stepImuValue;
+// // imuValue = mapIMU(imuValue);
+// let stepImuValue;
 
-// 	// let imuDifferenceAbs = imuValue - stepImuValue;
+// let imuDifferenceAbs = imuValue - stepImuValue;
 
-// 	// switch (imuDifferenceAbs) {
-// 	// 	case imuDifferenceAbs > 0.2:
-// 	// 		imuDirection = "right";
-// 	// 		break;
-// 	// 	case imuDifferenceAbs < -0.2:
-// 	// 		imuDirection = "left";
-// 	// 		break;
-// 	// 	case imuDifferenceAbs > -0.2 && imuDifferenceAbs < 0.2:
-// 	// 		imuDirection = "static";
-// 	// 		break;
-// 	// }
+// switch (imuDifferenceAbs) {
+// 	case imuDifferenceAbs > 0.2:
+// 		imuDirection = "right";
+// 		break;
+// 	case imuDifferenceAbs < -0.2:
+// 		imuDirection = "left";
+// 		break;
+// 	case imuDifferenceAbs > -0.2 && imuDifferenceAbs < 0.2:
+// 		imuDirection = "static";
+// 		break;
+// }
 
-// 	// let imuStep = 0.2;
+// let imuStep = 0.2;
 
-// 	// // // Update imuValue only if the new value is different
-// 	// if (stepImuValue - imuValue > imuStep || stepImuValue - imuValue < -imuStep) {
-// 	// 	stepImuValue = imuValue;
-// 	// 	// console.log(`imuValue: ${imuValue}`);
-// 	// }
+// // // Update imuValue only if the new value is different
+// if (stepImuValue - imuValue > imuStep || stepImuValue - imuValue < -imuStep) {
+// 	stepImuValue = imuValue;
+// 	// console.log(`imuValue: ${imuValue}`);
+// }
 
-// 	// if (newImuValue > imuValue + imuStep) {
+// if (newImuValue > imuValue + imuStep) {
 
-// 	// } else if (newImuValue < imuValue - imuStep) {
+// } else if (newImuValue < imuValue - imuStep) {
 
-// 	// } else if (newImuValue > imuValue - imuStep && newImuValue < imuValue + imuStep) {
-// 	// }
+// } else if (newImuValue > imuValue - imuStep && newImuValue < imuValue + imuStep) {
+// }
 
-// 	// Update potentioValue only if the new value is different
-// 	// if (newPotentioValue != potentioValue) {
-// 	// 	potentioValue = newPotentioValue;
-// 	// 	// console.log(`potentioValue: ${potentioValue}`);
-// 	// }
+// Update potentioValue only if the new value is different
+// if (newPotentioValue != potentioValue) {
+// 	potentioValue = newPotentioValue;
+// 	// console.log(`potentioValue: ${potentioValue}`);
+// }
 // });
 
-// document.addEventListener('DOMContentLoaded', () => {
+///////////////////////////////////////////////////////////
+
 // Connect to the Socket.IO server
 const socket = io("http://127.0.0.1:3000");
 
@@ -95,6 +95,7 @@ const updateInterval = 100; // Minimum time between updates in milliseconds
 
 // Listen for data event
 socket.on("data", function (data) {
+	console.log(data);
 	const currentTime = new Date().getTime();
 	if (currentTime - lastUpdateTime < updateInterval) return; // Throttle updates
 	lastUpdateTime = currentTime;
@@ -121,18 +122,15 @@ socket.on("data", function (data) {
 	// Determine the direction based on the average value
 	if (prevImuValue !== null) {
 		// Ensure prevImuValue has been set
-		imuDifferenceAbs = Math.abs(avgImuValue - prevImuValue);
-		if (avgImuValue < 0.01 && avgImuValue > -0.01) {
+		imuDifferenceAbs = Math.abs(imuValue - prevImuValue);
+		if (imuDifferenceAbs < 0.02) {
 			imuDirection = "static";
 		} else {
-			imuDirection = avgImuValue > 0 ? "left" : "right";
-			if (imuDifferenceAbs > 0.01) {
-				// Update prevImuValue only when the difference is significant
-				prevImuValue = avgImuValue;
-			}
+			imuDirection = imuValue > 0 ? "left" : "right";
+			prevImuValue = imuValue; // Update prevImuValue only when the difference is greater than 0.2
 		}
 	} else {
-		prevImuValue = avgImuValue; // Initialize prevImuValue on the first run
+		prevImuValue = imuValue; // Initialize prevImuValue on the first run
 	}
 
 	imuDirection != "static" ? console.log(imuDirection) : null;

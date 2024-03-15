@@ -129,7 +129,10 @@ const mapPotentiometer = (potentioValue, inputRangeMin, inputRangeMax, desiredRa
 	return mappedValue;
 };
 
-const mapIMU = (imuValue) => {
+const mapIMU = (imuValue) =>
+{
+	const IMU_MAX_CUTOFF = 39;
+
 	// The IMU has a range of -80 to 80
 	const inputRangeMin = -80;
 	const inputRangeMax = 80;
@@ -139,10 +142,11 @@ const mapIMU = (imuValue) => {
 	
 	// Cap the min to - 30 even if the IMU value is less than - 30 and the max to 30 even if the IMU value is greater than 30
 	let mappedValue = imuValue;
-	if (mappedValue < -30) {
-		mappedValue = -30;
-	} else if (mappedValue > 30) {
-		mappedValue = 30;
+
+	if (mappedValue < -IMU_MAX_CUTOFF) {
+		mappedValue = -IMU_MAX_CUTOFF;
+	} else if (mappedValue > IMU_MAX_CUTOFF) {
+		mappedValue = IMU_MAX_CUTOFF;
 	}
 
 	mappedValue = mapPotentiometer(mappedValue, inputRangeMin, inputRangeMax, desiredRangeMin, desiredRangeMax);
